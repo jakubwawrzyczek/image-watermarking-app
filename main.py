@@ -8,17 +8,29 @@ tui = tui.Tui()
 photo_watermark = photo_watermark.PhotoWatermark()
 text_watermark = text_watermark.TextWatermark()
 
-def watermark():
-    watermark_type = tui.get_watermark_type()
 
-    if watermark_type == 'TEXT':
-        text_watermark.add_text_watermark(tui.get_image_path(),
-                                                 tui.get_watermark_text(),
-                                                 tui.get_watermark_size()).show()
-    elif watermark_type == 'IMAGE':
+def convert_watermark_size():
+    size = size_value.get().upper()
+
+    match size:
+        case 'S':
+            return 24
+        case 'M':
+            return 20
+        case 'L':
+            return 14
+        case 'XL':
+            return 10
+
+def watermark():
+    if type_value.get().upper() == 'TEXT':
+        text_watermark.add_text_watermark(input_image_path.get(),
+                                                 input_content.get(),
+                                                 convert_watermark_size()).show()
+    elif type_value.get().upper() == 'IMAGE':
         photo_watermark.add_photo_watermark(tui.get_image_path(),
                                                    tui.get_watermark_image(),
-                                                   tui.get_watermark_size()).show()
+                                                   convert_watermark_size()).show()
     else:
         print('Incorrect type')
 
