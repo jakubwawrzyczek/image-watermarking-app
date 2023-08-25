@@ -11,7 +11,8 @@ tui = tui.Tui()
 photo_watermark = photo_watermark.PhotoWatermark()
 text_watermark = text_watermark.TextWatermark()
 
-filepath = ''
+image_path = ''
+watermark_path = ''
 
 
 def convert_watermark_size():
@@ -28,21 +29,42 @@ def convert_watermark_size():
             return 10
 
 
-def open_file():
-    global filepath
+def open_image_file():
+    global image_path
     file = filedialog.askopenfile(mode='r', filetypes=[('Png Files', '*.png'),
                                                        ('Jpg Files', '*.jpg')])
     if file:
-        filepath = os.path.abspath(file.name)
+        image_path = os.path.abspath(file.name)
+
+
+def open_watermark_file():
+    global watermark_path
+    file = filedialog.askopenfile(mode='r', filetypes=[('Png Files', '*.png'),
+                                                       ('Jpg Files', '*.jpg')])
+    if file:
+        watermark_path = os.path.abspath(file.name)
+
+
+def toggle(value):
+    if value == 'Image':
+        input_text.grid_forget()
+        btn_browse_watermark_path.grid(row=3, column=1)
+        lbl_content.config(text='Watermark path')
+        lbl_content.grid(row=3, column=0)
+    elif value == 'Text':
+        btn_browse_watermark_path.grid_forget()
+        input_text.grid(row=3, column=1)
+        lbl_content.config(text='Watermark text')
+        lbl_content.grid(row=3, column=0)
 
 
 def watermark():
-    if type_value.get().upper() == 'TEXT':
-        text_watermark.add_text_watermark(filepath,
-                                          input_content.get(),
+    if type_value.get() == 'Text':
+        text_watermark.add_text_watermark(image_path,
+                                          input_text.get(),
                                           convert_watermark_size()).show()
-    elif type_value.get().upper() == 'IMAGE':
-        photo_watermark.add_photo_watermark(filepath,
+    elif type_value.get() == 'Image':
+        photo_watermark.add_photo_watermark(image_path,
                                             tui.get_watermark_image(),
                                             convert_watermark_size()).show()
     else:
@@ -65,15 +87,16 @@ lbl_size.grid(row=1, column=0)
 lbl_type = Label(text='Watermark type: ', width=20)
 lbl_type.grid(row=2, column=0)
 
-lbl_content = Label(text='Watermark path/text', width=20)
-lbl_content.grid(row=3, column=0)
+lbl_content = Label(text='', width=20)
 
 # buttons
 btn_add_watermark = Button(text='Add Watermark', command=watermark, width=40, borderwidth=0, pady=0, padx=0)
 btn_add_watermark.grid(row=4, column=0, columnspan=4)
 
-btn_browse_image_path = Button(text='Browse', command=open_file)
+btn_browse_image_path = Button(text='Browse', command=open_image_file)
 btn_browse_image_path.grid(row=0, column=1)
+
+btn_browse_watermark_path = Button(text='Browse', command=open_image_file)
 
 # menus
 size_options = ['S', 'M', 'L', 'XL']
@@ -83,11 +106,10 @@ menu_size.grid(row=1, column=1, sticky="ew")
 
 type_options = ['Text', 'Image']
 type_value = tkinter.StringVar(window)
-menu_type = OptionMenu(window, type_value, *type_options)
+menu_type = OptionMenu(window, type_value, *type_options, command=toggle)
 menu_type.grid(row=2, column=1, sticky="ew")
 
 # inputs
-input_content = Entry(width=10)
-input_content.grid(row=3, column=1)
+input_text = Entry(width=10)
 
 window.mainloop()
