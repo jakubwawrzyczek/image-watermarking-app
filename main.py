@@ -53,10 +53,14 @@ def toggle(value):
         lbl_content.grid(row=3, column=0)
     elif value == 'Text':
         btn_browse_watermark_path.grid_forget()
+
         input_text.grid(row=3, column=1)
+
         lbl_content.config(text='Watermark text')
         lbl_content.grid(row=3, column=0)
 
+        menu_color.grid(row=4, column=1, sticky="ew")
+        lbl_color.grid(row=4, column=0)
 
 def watermark():
     if type_value.get() == 'Text':
@@ -89,9 +93,11 @@ lbl_type.grid(row=2, column=0)
 
 lbl_content = Label(text='', width=20)
 
+lbl_color = Label(text='Text color', width=20)
+
 # buttons
 btn_add_watermark = Button(text='Add Watermark', command=watermark, width=40, borderwidth=0, pady=0, padx=0)
-btn_add_watermark.grid(row=4, column=0, columnspan=4)
+btn_add_watermark.grid(row=9, column=0, columnspan=4)
 
 btn_browse_image_path = Button(text='Browse', command=open_image_file)
 btn_browse_image_path.grid(row=0, column=1)
@@ -108,6 +114,10 @@ type_options = ['Text', 'Image']
 type_value = tkinter.StringVar(window)
 menu_type = OptionMenu(window, type_value, *type_options, command=toggle)
 menu_type.grid(row=2, column=1, sticky="ew")
+
+color_options = ['Black', 'White']
+color_value = tkinter.StringVar(window)
+menu_color = OptionMenu(window, color_value, *color_options)
 
 # inputs
 input_text = Entry(width=10)
