@@ -9,7 +9,7 @@ class TextWatermark:
 
         global img
         try:
-            Image.open(path)
+            img = Image.open(path)
         except AttributeError:
             tkinter.messagebox.showerror(title='Error!', message='Browse for file path!')
             return None
@@ -38,7 +38,7 @@ class TextWatermark:
                               fill=shadow_color)
             drawable_img.text((watermark_pos[0] + 1, watermark_pos[1] + 1), (text + ' ') * size_option * 2, font=font,
                               fill=shadow_color)
-        elif border == 'Light':
+        else:
             drawable_img.text((watermark_pos[0] - 1, watermark_pos[1]), (text + ' ') * size_option * 2, font=font,
                               fill=shadow_color)
             drawable_img.text((watermark_pos[0] + 1, watermark_pos[1]), (text + ' ') * size_option * 2, font=font,
