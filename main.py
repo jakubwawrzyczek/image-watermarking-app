@@ -70,19 +70,21 @@ def toggle(value):
         menu_border.grid(row=5, column=1, sticky="ew")
         lbl_border.grid(row=5, column=0)
 
+
 def watermark():
     if type_value.get() == 'Text':
-        text_watermark.add_text_watermark(image_path,
-                                          input_text.get(),
-                                          convert_watermark_size(),
-                                          color_value.get(),
-                                          border_value.get()).show()
+        tm = text_watermark.add_text_watermark(image_path,
+                                               input_text.get(),
+                                               convert_watermark_size(),
+                                               color_value.get(),
+                                               border_value.get())
+
+        tm.show() if tm else None
     elif type_value.get() == 'Image':
-        photo_watermark.add_photo_watermark(image_path,
-                                            tui.get_watermark_image(),
-                                            convert_watermark_size()).show()
-    else:
-        print('Incorrect type')
+        pm = photo_watermark.add_photo_watermark(image_path,
+                                                 tui.get_watermark_image(),
+                                                 convert_watermark_size()).show()
+        pm.show() if pm else None
 
 
 # window config
