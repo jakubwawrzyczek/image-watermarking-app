@@ -7,7 +7,6 @@ from PIL import Image, ImageDraw, ImageFont
 class TextWatermark:
     def add_text_watermark(self, path, text, size_option, color, border):
 
-        global img
         try:
             img = Image.open(path)
         except AttributeError:

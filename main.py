@@ -82,7 +82,7 @@ def watermark():
         tm.show() if tm else None
     elif type_value.get() == 'Image':
         pm = photo_watermark.add_photo_watermark(image_path,
-                                                 tui.get_watermark_image(),
+                                                 open_watermark_file(),
                                                  convert_watermark_size()).show()
         pm.show() if pm else None
 
