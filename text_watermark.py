@@ -1,11 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 
-TEXT_COLOR = 'white'
-SHADOW_COLOR = 'black'
-
-
 class TextWatermark:
-    def add_text_watermark(self, path, text, size_option):
+    def add_text_watermark(self, path, text, size_option, color, border):
         img = Image.open(path)
         img_size = img.size
 
@@ -14,28 +10,34 @@ class TextWatermark:
 
         drawable_img = ImageDraw.Draw(img)
 
-        # light border
-        # drawable_img.text((watermark_pos[0] - 1, watermark_pos[1]), (text + ' ') * size_option * 2, font=font,
-        #                   fill=SHADOW_COLOR)
-        # drawable_img.text((watermark_pos[0] + 1, watermark_pos[1]), (text + ' ') * size_option * 2, font=font,
-        #                   fill=SHADOW_COLOR)
-        # drawable_img.text((watermark_pos[0], watermark_pos[1] - 1), (text + ' ') * size_option * 2, font=font,
-        #                   fill=SHADOW_COLOR)
-        # drawable_img.text((watermark_pos[0], watermark_pos[1] + 1), (text + ' ') * size_option * 2, font=font,
-        #                   fill=SHADOW_COLOR)
+        if color == 'Black':
+            text_color = 'black'
+            shadow_color = 'white'
+        else:
+            text_color = 'white'
+            shadow_color = 'black'
 
-        # thick border
-        drawable_img.text((watermark_pos[0] - 1, watermark_pos[1]-1), (text + ' ') * size_option * 2, font=font,
-                          fill=SHADOW_COLOR)
-        drawable_img.text((watermark_pos[0] + 1, watermark_pos[1]-1), (text + ' ') * size_option * 2, font=font,
-                          fill=SHADOW_COLOR)
-        drawable_img.text((watermark_pos[0]-1, watermark_pos[1]+1), (text + ' ') * size_option * 2, font=font,
-                          fill=SHADOW_COLOR)
-        drawable_img.text((watermark_pos[0]+1, watermark_pos[1]+1), (text + ' ') * size_option * 2, font=font,
-                          fill=SHADOW_COLOR)
+        # Border thickness
+        if border == 'Thick':
+            drawable_img.text((watermark_pos[0] - 1, watermark_pos[1]-1), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
+            drawable_img.text((watermark_pos[0] + 1, watermark_pos[1]-1), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
+            drawable_img.text((watermark_pos[0]-1, watermark_pos[1]+1), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
+            drawable_img.text((watermark_pos[0]+1, watermark_pos[1]+1), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
+        elif border == 'Light':
+            drawable_img.text((watermark_pos[0] - 1, watermark_pos[1]), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
+            drawable_img.text((watermark_pos[0] + 1, watermark_pos[1]), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
+            drawable_img.text((watermark_pos[0], watermark_pos[1] - 1), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
+            drawable_img.text((watermark_pos[0], watermark_pos[1] + 1), (text + ' ') * size_option * 2, font=font,
+                              fill=shadow_color)
 
-        # text
-        drawable_img.text(watermark_pos, (text + ' ') * size_option * 2, font=font, fill=TEXT_COLOR)
-
+        # Adding text
+        drawable_img.text(watermark_pos, (text + ' ') * size_option * 2, font=font, fill=text_color)
 
         return img

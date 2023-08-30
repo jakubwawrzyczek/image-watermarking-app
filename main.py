@@ -48,6 +48,11 @@ def open_watermark_file():
 def toggle(value):
     if value == 'Image':
         input_text.grid_forget()
+        menu_color.grid_forget()
+        lbl_color.grid_forget()
+        menu_border.grid_forget()
+        lbl_border.grid_forget()
+
         btn_browse_watermark_path.grid(row=3, column=1)
         lbl_content.config(text='Watermark path')
         lbl_content.grid(row=3, column=0)
@@ -62,11 +67,16 @@ def toggle(value):
         menu_color.grid(row=4, column=1, sticky="ew")
         lbl_color.grid(row=4, column=0)
 
+        menu_border.grid(row=5, column=1, sticky="ew")
+        lbl_border.grid(row=5, column=0)
+
 def watermark():
     if type_value.get() == 'Text':
         text_watermark.add_text_watermark(image_path,
                                           input_text.get(),
-                                          convert_watermark_size()).show()
+                                          convert_watermark_size(),
+                                          color_value.get(),
+                                          border_value.get()).show()
     elif type_value.get() == 'Image':
         photo_watermark.add_photo_watermark(image_path,
                                             tui.get_watermark_image(),
@@ -93,7 +103,9 @@ lbl_type.grid(row=2, column=0)
 
 lbl_content = Label(text='', width=20)
 
+# -- Text only
 lbl_color = Label(text='Text color', width=20)
+lbl_border = Label(text='Border size', width=20)
 
 # buttons
 btn_add_watermark = Button(text='Add Watermark', command=watermark, width=40, borderwidth=0, pady=0, padx=0)
@@ -118,6 +130,10 @@ menu_type.grid(row=2, column=1, sticky="ew")
 color_options = ['Black', 'White']
 color_value = tkinter.StringVar(window)
 menu_color = OptionMenu(window, color_value, *color_options)
+
+border_options = ['Slim', 'Thick']
+border_value = tkinter.StringVar(window)
+menu_border = OptionMenu(window, border_value, *border_options)
 
 # inputs
 input_text = Entry(width=10)
